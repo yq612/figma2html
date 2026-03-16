@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON → HTML 预览</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Inter', 'Noto Sans SC', system-ui, -apple-system, sans-serif;
+      color: #0f172a;
+      background: #f3f4f6;
+      overflow: hidden;
+    }
+    .app {
+      display: flex;
+      height: 100vh;
+    }
+    .panel {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .panel-left {
+      flex: 0 0 420px;
+      max-width: 420px;
+      border-right: 1px solid #e5e7eb;
+      background: #ffffff;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      align-self: flex-start;
+      height: 100vh;
+      overflow: auto;
+    }
+    .panel-right {
+      flex: 1;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow: auto;
+    }
+    .panel-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: #6b7280;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: #111827;
+    }
+    .left-header {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .left-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    button {
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .btn-primary,
+    .btn-outline,
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border-radius: 999px;
+      font-size: 13px;
+      line-height: 1;
+      padding: 7px 14px;
+      transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+    }
+    .btn-primary {
+      background: #111827;
+      color: #ffffff;
+    }
+    .btn-primary:hover {
+      background: #020617;
+    }
+    .btn-outline {
+      background: #ffffff;
+      color: #111827;
+      border: 1px solid #d1d5db;
+    }
+    .btn-outline:hover {
+      background: #f3f4f6;
+    }
+    .btn-ghost {
+      background: transparent;
+      color: #4b5563;
+    }
+    .btn-ghost:hover {
+      background: #e5e7eb;
+      color: #111827;
+    }
+    .btn-primary:active,
+    .btn-outline:active,
+    .btn-ghost:active {
+      transform: translateY(1px);
+    }
+    .btn-primary:disabled,
+    .btn-outline:disabled,
+    .btn-ghost:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .icon {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+    }
+    .field-label {
+      font-size: 12px;
+      color: #6b7280;
+      margin-bottom: 4px;
+    }
+    .field-helper {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-top: 4px;
+    }
+    textarea {
+      flex: 1;
+      width: 100%;
+      min-height: 260px;
+      border-radius: 10px;
+      border: 1px solid #e5e7eb;
+      padding: 10px 12px;
+      resize: none;
+      background: #f9fafb;
+      color: #111827;
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    textarea::placeholder {
+      color: #9ca3af;
+    }
+    textarea:focus {
+      outline: none;
+      border-color: #111827;
+      box-shadow: 0 0 0 1px #1118270d;
+      background: #ffffff;
+    }
+    .status-text {
+      font-size: 11px;
+      color: #9ca3af;
+      min-height: 16px;
+    }
+    .right-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .right-header-main {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .right-header-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: #374151;
+    }
+    .right-header-sub {
+      font-size: 11px;
+      color: #9ca3af;
+    }
+    .zoom-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px;
+      border-radius: 999px;
+      background: #f3f4f6;
+      border: 1px solid #e5e7eb;
+    }
+    .zoom-group span {
+      font-size: 11px;
+      color: #6b7280;
+      padding: 0 4px 0 6px;
+    }
+    .zoom-group button {
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-size: 11px;
+      background: transparent;
+      color: #4b5563;
+    }
+    .zoom-group button:hover {
+      background: #e5e7eb;
+    }
+    .zoom-group button.active {
+      background: #111827;
+      color: #ffffff;
+    }
+    .preview-shell {
+      flex: 1;
+      min-height: 0;
+      border-radius: 16px;
+      border: 1px solid #e5e7eb;
+      background: #f9fafb;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .preview-wrapper {
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
+      background-color: #f3f4f6;
+      background-image:
+        linear-gradient(45deg, #e5e7eb 25%, transparent 25%),
+        linear-gradient(-45deg, #e5e7eb 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #e5e7eb 75%),
+        linear-gradient(-45deg, transparent 75%, #e5e7eb 75%);
+      background-size: 14px 14px;
+      background-position: 0 0, 0 7px, 7px -7px, -7px 0;
+      border-radius: 12px;
+    }
+    .preview-scaled {
+      transform-origin: 0 0;
+      transform: scale(0.5);
+      display: inline-block;
+    }
+    #preview {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 12px;
+      background: #ffffff;
+    }
+    .error {
+      margin-top: 8px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: #fef2f2;
+      color: #b91c1c;
+      font-family: ui-monospace, monospace;
+      font-size: 11px;
+      white-space: pre-wrap;
+      overflow: auto;
+      border: 1px solid #fecaca;
+    }
+    @media (max-width: 900px) {
+      .app {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+      }
+      .panel-left {
+        flex: 1;
+        max-width: none;
+        border-right: none;
+        border-bottom: 1px solid #e5e7eb;
+        position: static;
+        height: auto;
+        overflow: visible;
+      }
+      .panel-right {
+        padding-top: 8px;
+        overflow: visible;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="panel panel-left">
+      <div class="left-header">
+        <h1>JSON 源数据</h1>
+      </div>
+      <div>
+        <div class="field-label">Figma 精简 JSON</div>
+        <textarea id="jsonInput" placeholder='粘贴或输入 Figma 导出的精简 JSON，然后点击「渲染」。'></textarea>
+        <div class="field-helper">仅在本地浏览器中处理，不会上传到其它地方。</div>
+      </div>
+      <div class="left-actions">
+        <button type="button" id="btnRender" class="btn-primary">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polygon points="5 3 19 12 5 21 5 3"/>
+          </svg>
+          <span>渲染</span>
+        </button>
+        <button type="button" id="btnDownloadJson" class="btn-outline">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 3v14"></path>
+            <polyline points="6 11 12 17 18 11"></polyline>
+            <path d="M5 21h14"></path>
+          </svg>
+          <span>下载 JSON</span>
+        </button>
+      </div>
+      <div class="status-text" id="status"></div>
+    </div>
+    <div class="panel panel-right">
+      <div class="right-header">
+        <div class="right-header-main">
+          <div class="right-header-title">预览画布</div>
+          <div class="right-header-sub">可滚动查看整体布局，右上角调整缩放比例</div>
+        </div>
+        <div class="zoom-group">
+          <span>缩放</span>
+          <button type="button" data-zoom="0.25" title="25%">25%</button>
+          <button type="button" data-zoom="0.5" class="active" title="50%">50%</button>
+          <button type="button" data-zoom="0.75" title="75%">75%</button>
+          <button type="button" data-zoom="1" title="100%">100%</button>
+        </div>
+      </div>
+      <div class="preview-shell">
+        <div class="preview-wrapper" id="previewWrapper">
+          <div class="preview-scaled">
+            <iframe id="preview" title="HTML 预览"></iframe>
+          </div>
+        </div>
+        <div id="error" class="error" style="display: none;"></div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var jsonInput = document.getElementById('jsonInput');
+      var btnRender = document.getElementById('btnRender');
+      var btnDownloadJson = document.getElementById('btnDownloadJson');
+      var previewWrapper = document.getElementById('previewWrapper');
+      var preview = document.getElementById('preview');
+      var previewScaled = document.querySelector('.preview-scaled');
+      var errorEl = document.getElementById('error');
+      var statusEl = document.getElementById('status');
+
+      function setZoom(scale) {
+        previewScaled.style.transform = 'scale(' + scale + ')';
+        document.querySelectorAll('.zoom-group button[data-zoom]').forEach(function (btn) {
+          btn.classList.toggle('active', parseFloat(btn.getAttribute('data-zoom')) === scale);
+        });
+      }
+      document.querySelectorAll('.zoom-group button[data-zoom]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          setZoom(parseFloat(btn.getAttribute('data-zoom')));
+        });
+      });
+
+      function showError(msg) {
+        if (!msg) {
+          errorEl.style.display = 'none';
+          errorEl.textContent = '';
+          return;
+        }
+        errorEl.textContent = msg;
+        errorEl.style.display = 'block';
+      }
+      function resizeIframe() {
+        try {
+          var doc = preview.contentDocument || (preview.contentWindow && preview.contentWindow.document);
+          if (!doc) return;
+          var htmlEl = doc.documentElement;
+          var bodyEl = doc.body;
+          var height = Math.max(
+            htmlEl ? htmlEl.scrollHeight : 0,
+            bodyEl ? bodyEl.scrollHeight : 0
+          );
+          var width = Math.max(
+            htmlEl ? htmlEl.scrollWidth : 0,
+            bodyEl ? bodyEl.scrollWidth : 0
+          );
+          if (height) {
+            previewScaled.style.height = height + 'px';
+          }
+          if (width) {
+            previewScaled.style.width = width + 'px';
+          }
+        } catch (e) {
+          // ignore cross-origin errors just in case
+        }
+      }
+
+      function showPreview(html) {
+        previewWrapper.style.display = 'block';
+        preview.onload = resizeIframe;
+        preview.srcdoc = html;
+      }
+      function setStatus(text) {
+        statusEl.textContent = text;
+      }
+
+      btnRender.addEventListener('click', function () {
+        var text = jsonInput.value.trim();
+        if (!text) {
+          setStatus('请先输入 JSON');
+          showError('请先在左侧输入或粘贴 JSON。');
+          return;
+        }
+        setStatus('渲染中…');
+        showError('');
+        fetch('/render', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: text
+        }).then(function (res) {
+          return res.text().then(function (body) {
+            if (!res.ok) {
+              throw new Error(body || '请求失败 ' + res.status);
+            }
+            return body;
+          });
+        }).then(function (html) {
+          showPreview(html);
+          setStatus('渲染完成');
+        }).catch(function (err) {
+          setStatus('渲染失败');
+          showError(err.message || '请求失败');
+        });
+      });
+
+      btnDownloadJson.addEventListener('click', function () {
+        var text = jsonInput.value;
+        var blob = new Blob([text || ''], { type: 'application/json;charset=utf-8' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'figma-json.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      });
+
+      // ensure initial zoom state applied
+      setZoom(0.5);
+    })();
+  </script>
+</body>
+</html>
