@@ -416,7 +416,7 @@
         }
         setStatus('渲染中…');
         showError('');
-        fetch('/render', {
+        fetch('/api/render', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: text
