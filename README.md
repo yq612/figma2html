@@ -2,11 +2,20 @@
 
 将 Figma 导出的 JSON 转换为可预览的单文件 HTML，用于验证设计稿还原度。
 
+支持本地 CLI 和 [Vercel 在线预览](https://figma2html.vercel.app)。
+
 ## 目录结构
 
 ```
 figma2html/
 ├── main.py                      # ⭐ 一键 Pipeline 入口（simplify → style → render）
+│
+├── api/
+│   └── render.py                # Vercel Serverless Function（POST /api/render）
+│
+├── public/
+│   ├── index.html               # Web 预览界面（粘贴 JSON → 实时渲染 → 下载 HTML）
+│   └── figma.svg                # Figma logo
 │
 ├── simplify/                    # 第一步：精简 Figma JSON，去除渲染无关字段
 │   ├── utils.py                 # null 清理、字段裁剪、fills/strokes 精简
@@ -31,20 +40,17 @@ figma2html/
 │   ├── node.py                  # 节点递归渲染为 HTML 标签
 │   └── builder.py               # build_html()、CLI 入口
 │
-├── preview/                     # 本地实时预览服务
-│   ├── server.py                # HTTP 服务（GET / · POST /render）
-│   └── preview.html             # 预览前端页面（粘贴 JSON → iframe 渲染）
-│
 ├── __result__/                  # Pipeline 产物（自动创建）
 │   ├── <timestamp>_simplified.json
 │   ├── <timestamp>_styled.json
 │   └── <timestamp>.html
 │
-└── __test__/                    # 测试样例（4 个页面）
-    ├── test_1.json              # Figma 原始 JSON（page1）
-    ├── test_2.json              # Figma 原始 JSON（page2）
-    ├── test_3.json              # Figma 原始 JSON（page3）
-    └── test_4.json              # Figma 原始 JSON（page4）
+├── __test__/                    # 测试样例（8 个页面）
+│   ├── test_1.json ~ test_8.json
+│
+├── vercel.json                  # Vercel 部署配置
+├── pyproject.toml               # Python 包配置（>=3.12）
+└── requirements.txt             # 无第三方依赖
 ```
 
 ## 模块依赖
@@ -84,12 +90,30 @@ Figma 原始 JSON
 
 ## 快速上手
 
-### ⭐ 一键 Pipeline
+### 在线预览
 
-自动依序执行三步，产物写入 `__result__/`，文件名使用毫秒时间戳（等同 JS `new Date().getTime()`）：
+访问 [figma2html.vercel.app](https://figma2html.vercel.app)，在左侧粘贴 Figma JSON，点击「渲染」即可在右侧预览 HTML 效果，支持缩放（25%/50%/75%/100%）和下载。
+
+### 本地预览
+
+使用 [Vercel CLI](https://vercel.com/docs/cli) 在本地启动开发服务器，模拟线上环境：
 
 ```bash
-python3 main.py __test__/page1/input.json
+# 安装 Vercel CLI（如未安装）
+npm i -g vercel
+
+# 启动本地开发服务器
+vercel dev
+```
+
+访问 `http://localhost:3000`，体验与线上一致的预览界面。
+
+### 本地 Pipeline
+
+自动依序执行三步，产物写入 `__result__/`，文件名使用毫秒时间戳：
+
+```bash
+python3 main.py __test__/test_1.json
 ```
 
 输出：
@@ -115,15 +139,21 @@ python3 -m style.main simplified.json styled.json --keep-all
 python3 -m render.builder styled.json output.html
 ```
 
-## 本地预览服务
+## Vercel 部署
 
-```bash
-python3 -m preview.server
-# 访问 http://localhost:8765
+项目已适配 Vercel Serverless 架构：
+
+- `public/` 下的静态文件直接托管
+- `api/render.py` 作为 Serverless Function 处理 `POST /api/render` 请求
+- 请求体为精简后的 Figma JSON（最大 10 MB），返回完整 HTML 字符串
+
 ```
-
-在浏览器页面粘贴 Figma JSON，点击"渲染"，右侧 iframe 实时展示 HTML 效果。
-服务接受 `POST /render`（JSON body）→ 返回完整 HTML 字符串。
+客户端
+ ├─ GET /           → public/index.html（Web 预览界面）
+ └─ POST /api/render → api/render.py（style → minimize → render）
+      请求: Figma JSON
+      响应: HTML string (text/html)
+```
 
 ## 节点类型支持
 
@@ -138,4 +168,4 @@ python3 -m preview.server
 
 ## 依赖
 
-仅使用 Python 标准库，无需安装第三方包。要求 **Python 3.8+**。
+仅使用 Python 标准库，无需安装第三方包。要求 **Python 3.12+**。
