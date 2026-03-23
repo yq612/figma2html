@@ -16,6 +16,7 @@ def _style_image(node, parent_container_transform, parent_type, is_root, parent_
     child_abs = node.get("absoluteBoundingBox")
     if (
         parent_node
+        and not _is_flex_parent(parent_layout_mode)
         and parent_node.get("clipsContent")
         and isinstance(parent_abs, dict)
         and isinstance(child_abs, dict)

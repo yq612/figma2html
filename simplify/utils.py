@@ -55,10 +55,25 @@ def _simplify_fills(fills):
 
 
 def _simplify_strokes(strokes):
-    """与 fills SOLID 逻辑一致：每项只保留 type + rgba。"""
+    """精简 strokes：SOLID 保留 type+rgba；GRADIENT_* 保留 type+gradientStops+gradientHandlePositions。"""
     if not strokes:
         return strokes
-    return [{k: s[k] for k in ("type", "rgba") if k in s} for s in strokes if isinstance(s, dict) and s.get("rgba")]
+    result = []
+    for s in strokes:
+        if not isinstance(s, dict):
+            continue
+        stype = s.get("type", "")
+        if stype == "SOLID":
+            if s.get("rgba"):
+                result.append({"type": stype, "rgba": s["rgba"]})
+        elif "GRADIENT" in stype:
+            entry = {"type": stype, "visible": s.get("visible", True)}
+            if "gradientStops" in s:
+                entry["gradientStops"] = s["gradientStops"]
+            if "gradientHandlePositions" in s:
+                entry["gradientHandlePositions"] = s["gradientHandlePositions"]
+            result.append(entry)
+    return result or None
 
 
 def _drop_stroke_if_no_strokes(out):

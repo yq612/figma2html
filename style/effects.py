@@ -13,16 +13,21 @@ def _effects_to_css(effects):
         if not isinstance(e, dict) or not e.get("visible", True):
             continue
         t = e.get("type")
-        if t == "DROP_SHADOW":
-            rgba = e.get("rgba", "rgba(0,0,0,0)")
-            ox, oy = e.get("offsetX", 0), e.get("offsetY", 0)
+        if t in ("DROP_SHADOW", "INNER_SHADOW"):
+            # Support both flat keys (offsetX/offsetY/rgba) and nested Figma format (offset.x/offset.y/color)
+            rgba = e.get("rgba")
+            if not rgba:
+                c = e.get("color", {})
+                cr, cg, cb, ca = c.get("r", 0), c.get("g", 0), c.get("b", 0), c.get("a", 1)
+                rgba = f"rgba({round(cr*255)}, {round(cg*255)}, {round(cb*255)}, {ca})"
+            offset = e.get("offset")
+            if offset and isinstance(offset, dict):
+                ox, oy = offset.get("x", 0), offset.get("y", 0)
+            else:
+                ox, oy = e.get("offsetX", 0), e.get("offsetY", 0)
             r, sp = e.get("radius", 0), e.get("spread", 0)
-            box_shadows.append(f"{ox}px {oy}px {r}px {sp}px {rgba}")
-        elif t == "INNER_SHADOW":
-            rgba = e.get("rgba", "rgba(0,0,0,0)")
-            ox, oy = e.get("offsetX", 0), e.get("offsetY", 0)
-            r, sp = e.get("radius", 0), e.get("spread", 0)
-            box_shadows.append(f"inset {ox}px {oy}px {r}px {sp}px {rgba}")
+            prefix = "inset " if t == "INNER_SHADOW" else ""
+            box_shadows.append(f"{prefix}{ox}px {oy}px {r}px {sp}px {rgba}")
         elif t == "BACKGROUND_BLUR":
             r = e.get("radius", 0)
             backdrop = f"blur({r}px)"

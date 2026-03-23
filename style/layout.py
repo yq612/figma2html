@@ -86,16 +86,46 @@ def _padding_css(pt, pr, pb, pl):
     return f"{pt}px {pr}px {pb}px {pl}px"
 
 
+def _actually_stretches(node, parent_layout_mode):
+    """
+    检查子节点在交叉轴上是否真正拉伸到与父级一致。
+    Figma JSON 中 layoutAlign="STRETCH" 有时并不反映实际渲染：
+    子节点可能保留固有尺寸并居中对齐。
+    判断依据：relativeTransform 的交叉轴偏移量。若子节点在交叉轴上有显著偏移
+    （> paddingTop/paddingLeft），说明它被居中/对齐而非拉伸。
+    """
+    parent_info = node.get("parent") or {}
+    rt = node.get("relativeTransform") or []
+    if len(rt) < 2 or len(rt[0]) < 3 or len(rt[1]) < 3:
+        return True  # 无法判断，默认信任
+    if parent_layout_mode == LAYOUT_HORIZONTAL:
+        # 交叉轴 = y 方向
+        cross_offset = rt[1][2]
+        parent_padding = parent_info.get("paddingTop", 0) or 0
+        # 若 y 偏移显著大于 paddingTop，说明未拉伸
+        if cross_offset > parent_padding + 2:
+            return False
+    elif parent_layout_mode == LAYOUT_VERTICAL:
+        # 交叉轴 = x 方向
+        cross_offset = rt[0][2]
+        parent_padding = parent_info.get("paddingLeft", 0) or 0
+        if cross_offset > parent_padding + 2:
+            return False
+    return True
+
+
 def _apply_flex_child(node, s, parent_layout_mode):
     if parent_layout_mode not in (LAYOUT_HORIZONTAL, LAYOUT_VERTICAL):
         return
     if node.get("layoutAlign") == "STRETCH":
-        s["align-self"] = "stretch"
-        # STRETCH 控制交叉轴：column 父 → cross=width → 100%；row 父 → cross=height → 100%
-        if parent_layout_mode == LAYOUT_VERTICAL:
-            s["width"] = "100%"
-        elif parent_layout_mode == LAYOUT_HORIZONTAL:
-            s["height"] = "100%"
+        if _actually_stretches(node, parent_layout_mode):
+            s["align-self"] = "stretch"
+            # STRETCH 控制交叉轴：column 父 → cross=width → 100%；row 父 → cross=height → 100%
+            if parent_layout_mode == LAYOUT_VERTICAL:
+                s["width"] = "100%"
+            elif parent_layout_mode == LAYOUT_HORIZONTAL:
+                s["height"] = "100%"
+        # 若实际未拉伸，不设置 align-self，让父级 align-items 生效
     if node.get("layoutGrow") == 1:
         s["flex"] = "1"
         # flex:1 接管主轴尺寸（flex-basis:0 覆盖固定值），移除主轴的固定 px 避免冲突
@@ -107,8 +137,7 @@ def _apply_flex_child(node, s, parent_layout_mode):
             s["min-width"] = "0"
         elif parent_layout_mode == LAYOUT_HORIZONTAL:
             s.pop("width", None)
-            s["height"] = "100%"
-            s["min-height"] = "0"
+            s["min-width"] = "0"
 
 
 def _style_common(node, parent_container_transform, parent_type, is_root, parent_layout_mode, parent_node=None):

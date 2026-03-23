@@ -69,19 +69,35 @@ def _style_background_border(node, s, parent_node=None):
             # 单值：交给 build_inline_style 的 _normalize_css_value 统一处理
             s["border-radius"] = f"{cr}px"
     strokes = node.get("strokes")
-    if strokes and len(strokes) > 0 and strokes[0].get("rgba"):
+    if strokes and len(strokes) > 0:
+        stroke = strokes[0]
         sw = round(node.get("strokeWeight", 1) or 1, 2)
-        rgba = strokes[0]["rgba"]
-        # 父为垂直布局且有多子节点时，视为列表项分隔线，只输出底部边框（与 Figma 常见 FAQ/列表设计一致）
-        children = (parent_node or {}).get("children") or []
-        if (
-            parent_node is not None
-            and parent_node.get("layoutMode") == LAYOUT_VERTICAL
-            and len(children) >= 2
-        ):
-            s["border-bottom"] = f"{sw}px solid {rgba}"
-        else:
-            s["border"] = f"{sw}px solid {rgba}"
+        stype = stroke.get("type", "")
+        if stroke.get("rgba"):
+            rgba = stroke["rgba"]
+            children = (parent_node or {}).get("children") or []
+            if (
+                parent_node is not None
+                and parent_node.get("layoutMode") == LAYOUT_VERTICAL
+                and len(children) >= 2
+            ):
+                s["border-bottom"] = f"{sw}px solid {rgba}"
+            else:
+                s["border"] = f"{sw}px solid {rgba}"
+        elif "GRADIENT" in stype:
+            grad_css = _gradient_to_css(stroke)
+            if grad_css:
+                has_radius = s.get("border-radius")
+                if has_radius:
+                    # border-image 不支持 border-radius，用 background-clip 技巧实现
+                    s["border"] = f"{sw}px solid transparent"
+                    existing_bg = s.get("background")
+                    inner = existing_bg if existing_bg else "#fff"
+                    s["background"] = f"linear-gradient({inner},{inner}) padding-box, {grad_css} border-box"
+                    s["background-origin"] = "border-box"
+                else:
+                    s["border"] = f"{sw}px solid"
+                    s["border-image"] = f"{grad_css} 1"
     effects = node.get("effects")
     if effects:
         box_str, backdrop, layer_blur = _effects_to_css(effects)

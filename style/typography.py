@@ -2,6 +2,7 @@
 
 from style.utils import _set
 from style.layout import _style_common, _apply_flex_child, _is_flex_parent
+from style.border import _gradient_to_css
 
 
 def _font_weight(style_str):
@@ -36,8 +37,18 @@ def _style_text(node, parent_container_transform, parent_type, is_root, parent_l
     s = _style_common(node, parent_container_transform, parent_type, is_root, parent_layout_mode, parent_node)
     s["position"] = "relative" if _is_flex_parent(parent_layout_mode) else "absolute"
     fills = node.get("fills")
-    if fills and len(fills) > 0 and fills[0].get("rgba"):
-        s["color"] = fills[0]["rgba"]
+    if fills and len(fills) > 0:
+        fill = fills[0]
+        ftype = fill.get("type", "")
+        if ftype == "SOLID" and fill.get("rgba"):
+            s["color"] = fill["rgba"]
+        elif "GRADIENT" in ftype:
+            grad_css = _gradient_to_css(fill)
+            if grad_css:
+                s["background"] = grad_css
+                s["-webkit-background-clip"] = "text"
+                s["background-clip"] = "text"
+                s["-webkit-text-fill-color"] = "transparent"
     elif not fills:
         # node 无整体 fill 时，从第一个 textSegment 的 fill 取 color，
         # 使 list-style marker 等继承到正确颜色。
