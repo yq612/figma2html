@@ -1,7 +1,7 @@
 """图片节点识别与样式生成。"""
 
 from style.utils import _normalize_num, _set
-from style.transform import _get_local_transform, _bounding_box_from_transform
+from style.transform import _get_local_transform, _bounding_box_from_transform, _linear_is_identity, _full_transform_to_css
 from style.layout import _is_flex_parent, _apply_flex_child, _visible_rect_in_parent, _escapes_flex
 
 
@@ -61,12 +61,20 @@ def _style_image(node, parent_container_transform, parent_type, is_root, parent_
             local_transform = _get_local_transform(node, parent_container_transform, parent_type, is_root)
             w, h = node.get("width"), node.get("height")
             if w is not None and h is not None:
-                left, top, box_w, box_h = _bounding_box_from_transform(local_transform, w, h)
-                s["left"] = f"{_normalize_num(left)}px"
-                s["top"] = f"{_normalize_num(top)}px"
+                if _linear_is_identity(local_transform):
+                    left, top, box_w, box_h = _bounding_box_from_transform(local_transform, w, h)
+                    s["left"] = f"{_normalize_num(left)}px"
+                    s["top"] = f"{_normalize_num(top)}px"
+                    _set(s, "width", f"{_normalize_num(box_w)}px")
+                    _set(s, "height", f"{_normalize_num(box_h)}px")
+                else:
+                    _set(s, "left", "0px")
+                    _set(s, "top", "0px")
+                    s["transform"] = _full_transform_to_css(local_transform)
+                    s["transform-origin"] = "0 0"
+                    _set(s, "width", f"{_normalize_num(w)}px")
+                    _set(s, "height", f"{_normalize_num(h)}px")
                 s["position"] = "absolute"
-                _set(s, "width", f"{_normalize_num(box_w)}px")
-                _set(s, "height", f"{_normalize_num(box_h)}px")
             return s
         w, h = node.get("width"), node.get("height")
         if w is not None and h is not None:
@@ -80,11 +88,20 @@ def _style_image(node, parent_container_transform, parent_type, is_root, parent_
     local_transform = _get_local_transform(node, parent_container_transform, parent_type, is_root)
     w, h = node.get("width"), node.get("height")
     if w is not None and h is not None:
-        left, top, box_w, box_h = _bounding_box_from_transform(local_transform, w, h)
-        s["left"] = f"{_normalize_num(left)}px"
-        s["top"] = f"{_normalize_num(top)}px"
+        if _linear_is_identity(local_transform):
+            left, top, box_w, box_h = _bounding_box_from_transform(local_transform, w, h)
+            s["left"] = f"{_normalize_num(left)}px"
+            s["top"] = f"{_normalize_num(top)}px"
+            _set(s, "width", f"{_normalize_num(box_w)}px")
+            _set(s, "height", f"{_normalize_num(box_h)}px")
+        else:
+            # 有旋转/倾斜时，用原始尺寸 + CSS transform 还原旋转，避免拉伸
+            _set(s, "left", "0px")
+            _set(s, "top", "0px")
+            s["transform"] = _full_transform_to_css(local_transform)
+            s["transform-origin"] = "0 0"
+            _set(s, "width", f"{_normalize_num(w)}px")
+            _set(s, "height", f"{_normalize_num(h)}px")
         s["position"] = "absolute"
-        _set(s, "width", f"{_normalize_num(box_w)}px")
-        _set(s, "height", f"{_normalize_num(box_h)}px")
     _apply_flex_child(node, s, parent_layout_mode)
     return s
