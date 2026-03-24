@@ -34,7 +34,9 @@ def add_style(node, parent_container_transform=None, parent_type=None, parent_la
         layout_mode = None  # GROUP 无布局系统，子节点始终绝对定位
     else:
         layout_mode = parent_layout_mode
-    next_parent_transform = None if is_root else _get_node_transform(node)
+    # GROUP 子节点的 relativeTransform 是相对 container parent 的，
+    # 需要用 GROUP 自身的 transform 做 rebasing，即使 GROUP 是根节点也必须传递。
+    next_parent_transform = _get_node_transform(node)
     next_parent_type = node.get("type")
     for c in node.get("children") or []:
         add_style(c, next_parent_transform, next_parent_type, layout_mode, is_root=False, parent_node=node)

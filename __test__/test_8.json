@@ -72,10 +72,10 @@
       "visible": true,
       "locked": false,
       "opacity": 1,
-      "width": 2499,
-      "height": 2499,
-      "x": -289,
-      "y": -906,
+      "width": 1920,
+      "height": 1593,
+      "x": 16274,
+      "y": 434,
       "rotation": -180,
       "fills": [
         {
@@ -97,10 +97,10 @@
       "layoutGrow": 0,
       "layoutAlign": "INHERIT",
       "absoluteBoundingBox": {
-        "x": 15984.999267578125,
-        "y": -472,
-        "width": 2498.666748046875,
-        "height": 2498.666748046875
+        "x": 16274,
+        "y": 434,
+        "width": 1920,
+        "height": 1593
       },
       "relativeTransform": [
         [
@@ -133,10 +133,10 @@
       "visible": true,
       "locked": false,
       "opacity": 1,
-      "width": 2499,
+      "width": 687,
       "height": 2499,
-      "x": -1812,
-      "y": 1877,
+      "x": 16274,
+      "y": 2311,
       "rotation": -180,
       "fills": [
         {
@@ -196,10 +196,10 @@
       "layoutGrow": 0,
       "layoutAlign": "INHERIT",
       "absoluteBoundingBox": {
-        "x": 14462.001220703125,
-        "y": 2311.000244140625,
-        "width": 2498.666748046875,
-        "height": 2498.666748046875
+        "x": 16274,
+        "y": 2311,
+        "width": 687,
+        "height": 2499
       },
       "relativeTransform": [
         [
@@ -232,10 +232,10 @@
       "visible": true,
       "locked": false,
       "opacity": 1,
-      "width": 2499,
+      "width": 1238,
       "height": 2499,
-      "x": 682,
-      "y": 5628,
+      "x": 16956,
+      "y": 3563,
       "rotation": 0,
       "fills": [
         {
@@ -296,9 +296,9 @@
       "layoutAlign": "INHERIT",
       "absoluteBoundingBox": {
         "x": 16956,
-        "y": 3563.000244140625,
-        "width": 2498.666748046875,
-        "height": 2498.666748046875
+        "y": 3563,
+        "width": 1238,
+        "height": 2499
       },
       "relativeTransform": [
         [
@@ -327,14 +327,14 @@
     {
       "id": "1821:263",
       "name": "Group 3",
-      "type": "GROUP",
+      "type": "IMAGE",
       "visible": true,
       "locked": false,
       "opacity": 1,
       "width": 374,
       "height": 385,
-      "x": 84,
-      "y": 237,
+      "x": 16358,
+      "y": 671,
       "rotation": 0,
       "fills": null,
       "strokes": null,
@@ -359,136 +359,14 @@
           237
         ]
       ],
-      "children": [
-        {
-          "id": "1821:264",
-          "name": "image 3",
-          "type": "IMAGE",
-          "visible": true,
-          "locked": false,
-          "opacity": 1,
-          "width": 320,
-          "height": 326,
-          "x": 84,
-          "y": 237,
-          "rotation": 0,
-          "fills": [
-            {
-              "type": "IMAGE",
-              "visible": true
-            }
-          ],
-          "strokes": null,
-          "strokeWeight": 1.7893470525741577,
-          "strokeAlign": "INSIDE",
-          "cornerRadius": 190.5654754638672,
-          "cornerSmoothing": 0,
-          "effects": null,
-          "blendMode": "PASS_THROUGH",
-          "constraints": {
-            "horizontal": "MIN",
-            "vertical": "MIN"
-          },
-          "layoutGrow": 0,
-          "layoutAlign": "INHERIT",
-          "absoluteBoundingBox": {
-            "x": 16358,
-            "y": 671,
-            "width": 320.29315185546875,
-            "height": 325.6611633300781
-          },
-          "relativeTransform": [
-            [
-              1,
-              -1.1102230246251565e-16,
-              84
-            ],
-            [
-              1.1102230246251565e-16,
-              1,
-              237.00001525878906
-            ]
-          ],
-          "isImage": true,
-          "imageFormat": "PNG",
-          "parent": {
-            "type": "GROUP",
-            "x": 84,
-            "y": 237
-          },
-          "src": "https://figma2tailwind-1255663487.cos.ap-guangzhou.myqcloud.com/images/1821%3A264-image-3.png"
-        },
-        {
-          "id": "1821:265",
-          "name": "image 4",
-          "type": "IMAGE",
-          "visible": true,
-          "locked": false,
-          "opacity": 1,
-          "width": 191,
-          "height": 193,
-          "x": 254,
-          "y": 416,
-          "rotation": 0,
-          "fills": [
-            {
-              "type": "IMAGE",
-              "visible": true
-            }
-          ],
-          "strokes": [
-            {
-              "type": "SOLID",
-              "color": {
-                "r": 1,
-                "g": 1,
-                "b": 1,
-                "a": 1
-              },
-              "hex": "#ffffff",
-              "rgba": "rgba(255, 255, 255, 1)"
-            }
-          ],
-          "strokeWeight": 12.525429725646973,
-          "strokeAlign": "OUTSIDE",
-          "cornerRadius": 190.5654754638672,
-          "cornerSmoothing": 0,
-          "effects": null,
-          "blendMode": "PASS_THROUGH",
-          "constraints": {
-            "horizontal": "MIN",
-            "vertical": "MIN"
-          },
-          "layoutGrow": 0,
-          "layoutAlign": "INHERIT",
-          "absoluteBoundingBox": {
-            "x": 16527.98828125,
-            "y": 849.9346923828125,
-            "width": 191.46017456054688,
-            "height": 193.24948120117188
-          },
-          "relativeTransform": [
-            [
-              1,
-              -1.1102230246251565e-16,
-              253.9892578125
-            ],
-            [
-              1.1102230246251565e-16,
-              1,
-              415.9346923828125
-            ]
-          ],
-          "isImage": true,
-          "imageFormat": "PNG",
-          "parent": {
-            "type": "GROUP",
-            "x": 84,
-            "y": 237
-          },
-          "src": "https://figma2tailwind-1255663487.cos.ap-guangzhou.myqcloud.com/images/1821%3A265-image-4.png"
-        }
-      ],
+      "isImage": true,
+      "imageFormat": "PNG",
+      "absoluteBoundingBox": {
+        "x": 16358,
+        "y": 671,
+        "width": 374,
+        "height": 385
+      },
       "parent": {
         "type": "FRAME",
         "x": 16274,
@@ -496,7 +374,8 @@
         "paddingLeft": 0,
         "paddingTop": 0,
         "layoutMode": "NONE"
-      }
+      },
+      "src": "https://figma2tailwind-1255663487.cos.ap-guangzhou.myqcloud.com/images/1821%3A263-Group-3.png"
     },
     {
       "id": "1821:266",
@@ -599,12 +478,12 @@
           "name": "组 1",
           "type": "IMAGE",
           "visible": true,
-          "locked": true,
+          "locked": false,
           "opacity": 1,
           "width": 237,
           "height": 40,
-          "x": 16,
-          "y": 28,
+          "x": 16490,
+          "y": 502,
           "rotation": 0,
           "fills": null,
           "strokes": null,
@@ -633,7 +512,7 @@
           "absoluteBoundingBox": {
             "x": 16490,
             "y": 502,
-            "width": 237.31675720214844,
+            "width": 237,
             "height": 40
           },
           "relativeTransform": [
@@ -1341,8 +1220,8 @@
           "opacity": 1,
           "width": 221,
           "height": 64,
-          "x": 1283,
-          "y": 80,
+          "x": 17757,
+          "y": 490,
           "rotation": 0,
           "fills": null,
           "strokes": null,
@@ -1370,10 +1249,10 @@
           "isImage": true,
           "imageFormat": "PNG",
           "absoluteBoundingBox": {
-            "x": 17756.765625,
-            "y": 489.9999990463257,
-            "width": 221.23394012451172,
-            "height": 64.00000095367432
+            "x": 17757,
+            "y": 490,
+            "width": 221,
+            "height": 64
           },
           "parent": {
             "type": "FRAME",
@@ -1715,8 +1594,8 @@
           "opacity": 1,
           "width": 293,
           "height": 72,
-          "x": 377,
-          "y": 314,
+          "x": 17088,
+          "y": 1127,
           "rotation": 0,
           "fills": [
             {
@@ -1767,9 +1646,9 @@
           "layoutAlign": "INHERIT",
           "clipsContent": false,
           "absoluteBoundingBox": {
-            "x": 17087.50390625,
+            "x": 17088,
             "y": 1127,
-            "width": 292.9937744140625,
+            "width": 293,
             "height": 72
           },
           "relativeTransform": [
@@ -1868,10 +1747,10 @@
           "visible": true,
           "locked": true,
           "opacity": 1,
-          "width": 111,
-          "height": 65,
-          "x": 0,
-          "y": 0,
+          "width": 121,
+          "height": 74,
+          "x": 16735,
+          "y": 1292,
           "rotation": 0,
           "fills": null,
           "strokes": null,
@@ -1898,10 +1777,10 @@
           "layoutAlign": "INHERIT",
           "clipsContent": false,
           "absoluteBoundingBox": {
-            "x": 16737,
-            "y": 1293,
-            "width": 111.09090423583984,
-            "height": 65
+            "x": 16735,
+            "y": 1292,
+            "width": 121,
+            "height": 74
           },
           "relativeTransform": [
             [
@@ -2173,7 +2052,7 @@
             [
               0,
               1,
-              117.92259979248047
+              117.922607421875
             ]
           ],
           "children": [
@@ -2186,8 +2065,8 @@
               "opacity": 1,
               "width": 40,
               "height": 40,
-              "x": 83,
-              "y": 0,
+              "x": 17925,
+              "y": 1039,
               "rotation": 0,
               "fills": null,
               "strokes": null,
@@ -2214,8 +2093,8 @@
               "layoutAlign": "INHERIT",
               "clipsContent": true,
               "absoluteBoundingBox": {
-                "x": 17924.666015625,
-                "y": 1038.922607421875,
+                "x": 17925,
+                "y": 1039,
                 "width": 40,
                 "height": 40
               },
@@ -2719,8 +2598,8 @@
               "opacity": 1,
               "width": 24,
               "height": 24,
-              "x": 79,
-              "y": 0,
+              "x": 17698,
+              "y": 1229,
               "rotation": 0,
               "fills": null,
               "strokes": null,
@@ -2747,7 +2626,7 @@
               "layoutAlign": "INHERIT",
               "clipsContent": true,
               "absoluteBoundingBox": {
-                "x": 17697.5,
+                "x": 17698,
                 "y": 1229,
                 "width": 24,
                 "height": 24
@@ -3122,8 +3001,8 @@
           "opacity": 1,
           "width": 49,
           "height": 49,
-          "x": 24,
-          "y": 33,
+          "x": 16665,
+          "y": 704,
           "rotation": 0,
           "fills": [
             {
@@ -3163,9 +3042,9 @@
           "clipsContent": false,
           "absoluteBoundingBox": {
             "x": 16665,
-            "y": 703.9925537109375,
-            "width": 49.01493453979492,
-            "height": 49.01493453979492
+            "y": 704,
+            "width": 49,
+            "height": 49
           },
           "relativeTransform": [
             [
@@ -3986,8 +3865,8 @@
                       "opacity": 1,
                       "width": 150,
                       "height": 150,
-                      "x": 162,
-                      "y": 24,
+                      "x": 16637,
+                      "y": 1894,
                       "rotation": 0,
                       "fills": [
                         {
@@ -4009,7 +3888,7 @@
                       "layoutGrow": 0,
                       "layoutAlign": "INHERIT",
                       "absoluteBoundingBox": {
-                        "x": 16636.5,
+                        "x": 16637,
                         "y": 1894,
                         "width": 150,
                         "height": 150
@@ -4370,8 +4249,8 @@
                       "opacity": 1,
                       "width": 175,
                       "height": 150,
-                      "x": 149,
-                      "y": 24,
+                      "x": 17147,
+                      "y": 1894,
                       "rotation": 0,
                       "fills": [
                         {
@@ -4754,8 +4633,8 @@
                       "opacity": 1,
                       "width": 175,
                       "height": 150,
-                      "x": 149,
-                      "y": 24,
+                      "x": 17670,
+                      "y": 1894,
                       "rotation": 0,
                       "fills": [
                         {
@@ -5203,8 +5082,8 @@
                       "opacity": 1,
                       "width": 150,
                       "height": 150,
-                      "x": 162,
-                      "y": 24,
+                      "x": 16637,
+                      "y": 2281,
                       "rotation": 0,
                       "fills": [
                         {
@@ -5226,7 +5105,7 @@
                       "layoutGrow": 0,
                       "layoutAlign": "INHERIT",
                       "absoluteBoundingBox": {
-                        "x": 16636.5,
+                        "x": 16637,
                         "y": 2281,
                         "width": 150,
                         "height": 150
@@ -5587,8 +5466,8 @@
                       "opacity": 1,
                       "width": 188,
                       "height": 150,
-                      "x": 143,
-                      "y": 24,
+                      "x": 17141,
+                      "y": 2281,
                       "rotation": 0,
                       "fills": [
                         {
@@ -5610,7 +5489,7 @@
                       "layoutGrow": 0,
                       "layoutAlign": "INHERIT",
                       "absoluteBoundingBox": {
-                        "x": 17140.5,
+                        "x": 17141,
                         "y": 2281,
                         "width": 188,
                         "height": 150
@@ -5971,8 +5850,8 @@
                       "opacity": 1,
                       "width": 150,
                       "height": 150,
-                      "x": 162,
-                      "y": 24,
+                      "x": 17683,
+                      "y": 2281,
                       "rotation": 0,
                       "fills": [
                         {
@@ -5994,7 +5873,7 @@
                       "layoutGrow": 0,
                       "layoutAlign": "INHERIT",
                       "absoluteBoundingBox": {
-                        "x": 17682.5,
+                        "x": 17683,
                         "y": 2281,
                         "width": 150,
                         "height": 150
@@ -6587,10 +6466,10 @@
           "visible": true,
           "locked": true,
           "opacity": 1,
-          "width": 775,
-          "height": 669,
-          "x": 745,
-          "y": 0,
+          "width": 825,
+          "height": 703,
+          "x": 17169,
+          "y": 2860,
           "rotation": 0,
           "fills": null,
           "strokes": null,
@@ -6617,10 +6496,10 @@
           "layoutAlign": "INHERIT",
           "clipsContent": false,
           "absoluteBoundingBox": {
-            "x": 17219.291015625,
-            "y": 2894,
-            "width": 774.7097778320312,
-            "height": 669.2903442382812
+            "x": 17169,
+            "y": 2860,
+            "width": 825,
+            "height": 703
           },
           "relativeTransform": [
             [
@@ -6716,12 +6595,12 @@
           "name": "4574122 1",
           "type": "IMAGE",
           "visible": true,
-          "locked": false,
+          "locked": true,
           "opacity": 1,
           "width": 802,
           "height": 655,
-          "x": 0,
-          "y": 0,
+          "x": 16474,
+          "y": 3864,
           "rotation": 0,
           "fills": [
             {
@@ -8989,12 +8868,12 @@
       "name": "首页 1",
       "type": "IMAGE",
       "visible": true,
-      "locked": false,
+      "locked": true,
       "opacity": 1,
-      "width": 451,
-      "height": 977,
-      "x": 1251,
-      "y": 4385,
+      "width": 475,
+      "height": 1001,
+      "x": 17513,
+      "y": 4807,
       "rotation": 0,
       "fills": [
         {
@@ -9055,10 +8934,10 @@
       "layoutGrow": 0,
       "layoutAlign": "INHERIT",
       "absoluteBoundingBox": {
-        "x": 17525,
-        "y": 4819,
-        "width": 451,
-        "height": 977
+        "x": 17513,
+        "y": 4807,
+        "width": 475,
+        "height": 1001
       },
       "relativeTransform": [
         [
@@ -9775,12 +9654,12 @@
                       "name": "组 1",
                       "type": "IMAGE",
                       "visible": true,
-                      "locked": true,
+                      "locked": false,
                       "opacity": 1,
                       "width": 237,
                       "height": 40,
-                      "x": 0,
-                      "y": 0,
+                      "x": 16474,
+                      "y": 7300,
                       "rotation": 0,
                       "fills": null,
                       "strokes": null,
@@ -9809,7 +9688,7 @@
                       "absoluteBoundingBox": {
                         "x": 16474,
                         "y": 7300,
-                        "width": 237.31675720214844,
+                        "width": 237,
                         "height": 40
                       },
                       "relativeTransform": [
@@ -10186,8 +10065,8 @@
                               "opacity": 1,
                               "width": 56,
                               "height": 56,
-                              "x": 0,
-                              "y": 0,
+                              "x": 16494,
+                              "y": 6737,
                               "rotation": 0,
                               "fills": null,
                               "strokes": null,
@@ -11493,8 +11372,8 @@
                               "opacity": 1,
                               "width": 16,
                               "height": 16,
-                              "x": 0,
-                              "y": 3,
+                              "x": 17770,
+                              "y": 6793,
                               "rotation": 0,
                               "fills": null,
                               "strokes": null,
@@ -11522,7 +11401,7 @@
                               "clipsContent": true,
                               "absoluteBoundingBox": {
                                 "x": 17770,
-                                "y": 6792.5,
+                                "y": 6793,
                                 "width": 16,
                                 "height": 16
                               },
@@ -11713,8 +11592,8 @@
                               "opacity": 1,
                               "width": 16,
                               "height": 16,
-                              "x": 0,
-                              "y": 3,
+                              "x": 17770,
+                              "y": 6838,
                               "rotation": 0,
                               "fills": null,
                               "strokes": null,
@@ -11742,7 +11621,7 @@
                               "clipsContent": true,
                               "absoluteBoundingBox": {
                                 "x": 17770,
-                                "y": 6837.5,
+                                "y": 6838,
                                 "width": 16,
                                 "height": 16
                               },
@@ -11933,8 +11812,8 @@
                               "opacity": 1,
                               "width": 16,
                               "height": 20,
-                              "x": 0,
-                              "y": 0,
+                              "x": 17770,
+                              "y": 6880,
                               "rotation": 0,
                               "fills": null,
                               "strokes": null,
@@ -11964,7 +11843,7 @@
                                 "x": 17770,
                                 "y": 6880,
                                 "width": 16,
-                                "height": 19.55555534362793
+                                "height": 20
                               },
                               "relativeTransform": [
                                 [
@@ -12664,8 +12543,8 @@
                               "opacity": 1,
                               "width": 56,
                               "height": 56,
-                              "x": 0,
-                              "y": 3,
+                              "x": 17110,
+                              "y": 6453,
                               "rotation": 0,
                               "fills": [
                                 {
@@ -12687,10 +12566,10 @@
                               "layoutGrow": 0,
                               "layoutAlign": "INHERIT",
                               "absoluteBoundingBox": {
-                                "x": 17109.556640625,
+                                "x": 17110,
                                 "y": 6453,
-                                "width": 55.55555725097656,
-                                "height": 55.55555725097656
+                                "width": 56,
+                                "height": 56
                               },
                               "relativeTransform": [
                                 [
@@ -12819,14 +12698,14 @@
                     {
                       "id": "1851:617",
                       "name": "Google Play",
-                      "type": "FRAME",
+                      "type": "IMAGE",
                       "visible": true,
                       "locked": false,
                       "opacity": 1,
                       "width": 360,
                       "height": 172,
-                      "x": 0,
-                      "y": 0,
+                      "x": 17056,
+                      "y": 6407,
                       "rotation": 0,
                       "fills": [
                         {
@@ -12882,10 +12761,10 @@
                       "layoutAlign": "INHERIT",
                       "clipsContent": false,
                       "absoluteBoundingBox": {
-                        "x": 17087.333984375,
-                        "y": 6428,
-                        "width": 293.3333435058594,
-                        "height": 105.55555725097656
+                        "x": 17056,
+                        "y": 6407,
+                        "width": 360,
+                        "height": 172
                       },
                       "relativeTransform": [
                         [
@@ -12899,214 +12778,8 @@
                           0
                         ]
                       ],
-                      "children": [
-                        {
-                          "id": "1851:618",
-                          "name": "Frame 45",
-                          "type": "FRAME",
-                          "visible": true,
-                          "locked": false,
-                          "opacity": 1,
-                          "width": 249,
-                          "height": 61,
-                          "x": 22,
-                          "y": 22,
-                          "rotation": 0,
-                          "fills": null,
-                          "strokes": null,
-                          "strokeWeight": 1.111111044883728,
-                          "strokeAlign": "INSIDE",
-                          "cornerRadius": 0,
-                          "cornerSmoothing": 0,
-                          "effects": null,
-                          "blendMode": "PASS_THROUGH",
-                          "constraints": {
-                            "horizontal": "MIN",
-                            "vertical": "MIN"
-                          },
-                          "layoutMode": "HORIZONTAL",
-                          "primaryAxisAlignItems": "CENTER",
-                          "counterAxisAlignItems": "CENTER",
-                          "paddingLeft": 0,
-                          "paddingRight": 0,
-                          "paddingTop": 0,
-                          "paddingBottom": 0,
-                          "itemSpacing": 22.22222137451172,
-                          "layoutWrap": "NO_WRAP",
-                          "layoutGrow": 0,
-                          "layoutAlign": "INHERIT",
-                          "clipsContent": false,
-                          "absoluteBoundingBox": {
-                            "x": 17109.556640625,
-                            "y": 6450.22216796875,
-                            "width": 248.88888549804688,
-                            "height": 61.11111068725586
-                          },
-                          "relativeTransform": [
-                            [
-                              1,
-                              0,
-                              22.22222137451172
-                            ],
-                            [
-                              0,
-                              1,
-                              22.22222137451172
-                            ]
-                          ],
-                          "children": [
-                            {
-                              "id": "1851:619",
-                              "name": "apple 1",
-                              "type": "IMAGE",
-                              "visible": true,
-                              "locked": false,
-                              "opacity": 1,
-                              "width": 56,
-                              "height": 56,
-                              "x": 0,
-                              "y": 3,
-                              "rotation": 0,
-                              "fills": [
-                                {
-                                  "type": "IMAGE",
-                                  "visible": true
-                                }
-                              ],
-                              "strokes": null,
-                              "strokeWeight": 1.111111044883728,
-                              "strokeAlign": "INSIDE",
-                              "cornerRadius": 0,
-                              "cornerSmoothing": 0,
-                              "effects": null,
-                              "blendMode": "PASS_THROUGH",
-                              "constraints": {
-                                "horizontal": "MIN",
-                                "vertical": "MIN"
-                              },
-                              "layoutGrow": 0,
-                              "layoutAlign": "INHERIT",
-                              "absoluteBoundingBox": {
-                                "x": 17109.556640625,
-                                "y": 6453,
-                                "width": 55.55555725097656,
-                                "height": 55.55555725097656
-                              },
-                              "relativeTransform": [
-                                [
-                                  1,
-                                  0,
-                                  0.00021701389050576836
-                                ],
-                                [
-                                  0,
-                                  1,
-                                  2.7779948711395264
-                                ]
-                              ],
-                              "isImage": true,
-                              "imageFormat": "PNG",
-                              "parent": {
-                                "type": "FRAME",
-                                "x": 22,
-                                "y": 22,
-                                "paddingLeft": 0,
-                                "paddingTop": 0,
-                                "layoutMode": "HORIZONTAL"
-                              },
-                              "src": "https://figma2tailwind-1255663487.cos.ap-guangzhou.myqcloud.com/images/1851%3A619-apple-1.png"
-                            },
-                            {
-                              "id": "1851:620",
-                              "name": "Donwload on the App Store",
-                              "type": "TEXT",
-                              "visible": true,
-                              "locked": false,
-                              "opacity": 1,
-                              "width": 171,
-                              "height": 61,
-                              "x": 78,
-                              "y": 0,
-                              "rotation": 0,
-                              "fills": [
-                                {
-                                  "type": "SOLID",
-                                  "color": {
-                                    "r": 0,
-                                    "g": 0,
-                                    "b": 0,
-                                    "a": 1
-                                  },
-                                  "hex": "#000000",
-                                  "rgba": "rgba(0, 0, 0, 1)"
-                                }
-                              ],
-                              "strokes": null,
-                              "strokeWeight": 1.111111044883728,
-                              "strokeAlign": "OUTSIDE",
-                              "cornerRadius": null,
-                              "cornerSmoothing": null,
-                              "effects": null,
-                              "blendMode": "PASS_THROUGH",
-                              "constraints": {
-                                "horizontal": "MIN",
-                                "vertical": "MIN"
-                              },
-                              "layoutGrow": 0,
-                              "layoutAlign": "INHERIT",
-                              "absoluteBoundingBox": {
-                                "x": 17187.333984375,
-                                "y": 6450.22216796875,
-                                "width": 171.11111450195312,
-                                "height": 61.11111068725586
-                              },
-                              "relativeTransform": [
-                                [
-                                  1,
-                                  0,
-                                  77.77799224853516
-                                ],
-                                [
-                                  0,
-                                  1,
-                                  0.00021701389050576836
-                                ]
-                              ],
-                              "characters": "Donwload on the\nApp Store",
-                              "textAutoResize": "WIDTH_AND_HEIGHT",
-                              "textAlignHorizontal": "LEFT",
-                              "textAlignVertical": "TOP",
-                              "letterSpacing": {
-                                "unit": "PIXELS",
-                                "value": 0
-                              },
-                              "lineHeight": {
-                                "unit": "PERCENT",
-                                "value": 124.00001287460327
-                              },
-                              "textDecoration": "NONE",
-                              "fontName": null,
-                              "textCase": null,
-                              "parent": {
-                                "type": "FRAME",
-                                "x": 22,
-                                "y": 22,
-                                "paddingLeft": 0,
-                                "paddingTop": 0,
-                                "layoutMode": "HORIZONTAL"
-                              }
-                            }
-                          ],
-                          "parent": {
-                            "type": "FRAME",
-                            "x": 0,
-                            "y": 0,
-                            "paddingLeft": 22.22222137451172,
-                            "paddingTop": 22.22222137451172,
-                            "layoutMode": "VERTICAL"
-                          }
-                        }
-                      ],
+                      "isImage": true,
+                      "imageFormat": "PNG",
                       "parent": {
                         "type": "FRAME",
                         "x": 143,
@@ -13114,7 +12787,8 @@
                         "paddingLeft": 0,
                         "paddingTop": 0,
                         "layoutMode": "HORIZONTAL"
-                      }
+                      },
+                      "src": "https://figma2tailwind-1255663487.cos.ap-guangzhou.myqcloud.com/images/1851%3A617-Google-Play.png"
                     }
                   ],
                   "parent": {
@@ -13141,12 +12815,12 @@
               "name": "首页 1",
               "type": "IMAGE",
               "visible": true,
-              "locked": false,
+              "locked": true,
               "opacity": 1,
-              "width": 739,
-              "height": 901,
-              "x": 30,
-              "y": -11,
+              "width": 715,
+              "height": 656,
+              "x": 16316,
+              "y": 5997,
               "rotation": 30,
               "fills": [
                 {
@@ -13168,10 +12842,10 @@
               "layoutGrow": 0,
               "layoutAlign": "INHERIT",
               "absoluteBoundingBox": {
-                "x": 16303.9267578125,
-                "y": 5985.212890625,
-                "width": 738.7236221432686,
-                "height": 900.5068437457085
+                "x": 16316,
+                "y": 5997,
+                "width": 715,
+                "height": 656
               },
               "relativeTransform": [
                 [
@@ -13202,12 +12876,12 @@
               "name": "首页 2",
               "type": "IMAGE",
               "visible": true,
-              "locked": false,
+              "locked": true,
               "opacity": 1,
-              "width": 739,
-              "height": 901,
-              "x": 1151,
-              "y": -11,
+              "width": 715,
+              "height": 656,
+              "x": 17437,
+              "y": 5997,
               "rotation": -30,
               "fills": [
                 {
@@ -13229,10 +12903,10 @@
               "layoutGrow": 0,
               "layoutAlign": "INHERIT",
               "absoluteBoundingBox": {
-                "x": 17424.92578125,
-                "y": 5985.30517578125,
-                "width": 738.7236221432686,
-                "height": 900.5068437457085
+                "x": 17437,
+                "y": 5997,
+                "width": 715,
+                "height": 656
               },
               "relativeTransform": [
                 [

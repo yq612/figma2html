@@ -47,14 +47,32 @@ def _gradient_to_css(fill):
 def _style_background_border(node, s, parent_node=None):
     fills = node.get("fills")
     if fills and len(fills) > 0:
-        fill = fills[0]
-        ftype = fill.get("type", "")
-        if ftype == "SOLID" and fill.get("rgba"):
-            s["background"] = fill["rgba"]
-        elif "GRADIENT" in ftype:
-            css = _gradient_to_css(fill)
-            if css:
-                s["background"] = css
+        # Figma fills 从下到上渲染（最后一项在最上层）；CSS background 从上到下渲染（第一项在最上层）
+        bg_parts = []  # [(kind, css_value), ...] 按视觉从上到下排列
+        for fill in reversed(fills):
+            if fill.get("visible") is False:
+                continue
+            ftype = fill.get("type", "")
+            if ftype == "SOLID" and fill.get("rgba"):
+                bg_parts.append(("solid", fill["rgba"]))
+            elif "GRADIENT" in ftype:
+                css = _gradient_to_css(fill)
+                if css:
+                    bg_parts.append(("gradient", css))
+        if len(bg_parts) == 1:
+            s["background"] = bg_parts[0][1]
+        elif len(bg_parts) > 1:
+            layers = []
+            for i, (kind, value) in enumerate(bg_parts):
+                if kind == "gradient":
+                    layers.append(value)
+                elif i < len(bg_parts) - 1:
+                    # 非底层纯色需要转为 gradient 才能参与多层叠加
+                    layers.append(f"linear-gradient({value},{value})")
+                else:
+                    # 最底层纯色可直接作为 background-color（CSS shorthand 末尾层）
+                    layers.append(value)
+            s["background"] = ", ".join(layers)
     cr = node.get("cornerRadius")
     if cr is not None:
         if isinstance(cr, dict):
@@ -73,17 +91,24 @@ def _style_background_border(node, s, parent_node=None):
         stroke = strokes[0]
         sw = round(node.get("strokeWeight", 1) or 1, 2)
         stype = stroke.get("type", "")
+        stroke_align = node.get("strokeAlign", "INSIDE")
         if stroke.get("rgba"):
             rgba = stroke["rgba"]
-            children = (parent_node or {}).get("children") or []
-            if (
-                parent_node is not None
-                and parent_node.get("layoutMode") == LAYOUT_VERTICAL
-                and len(children) >= 2
-            ):
-                s["border-bottom"] = f"{sw}px solid {rgba}"
+            if stroke_align == "OUTSIDE":
+                # OUTSIDE 描边不占用布局空间，用 outline 模拟（不影响盒模型尺寸）
+                s["outline"] = f"{sw}px solid {rgba}"
             else:
-                s["border"] = f"{sw}px solid {rgba}"
+                children = (parent_node or {}).get("children") or []
+                if (
+                    parent_node is not None
+                    and parent_node.get("layoutMode") == LAYOUT_VERTICAL
+                    and len(children) >= 2
+                ):
+                    s["border-bottom"] = f"{sw}px solid {rgba}"
+                else:
+                    s["border"] = f"{sw}px solid {rgba}"
+                if stroke_align == "INSIDE":
+                    s["box-sizing"] = "border-box"
         elif "GRADIENT" in stype:
             grad_css = _gradient_to_css(stroke)
             if grad_css:
