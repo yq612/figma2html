@@ -37,7 +37,8 @@ def _style_text(node, parent_container_transform, parent_type, is_root, parent_l
     s = _style_common(node, parent_container_transform, parent_type, is_root, parent_layout_mode, parent_node)
     s["position"] = "relative" if _is_flex_parent(parent_layout_mode) else "absolute"
     fills = node.get("fills")
-    if fills and len(fills) > 0:
+    has_valid_fills = isinstance(fills, list) and len(fills) > 0
+    if has_valid_fills:
         fill = fills[0]
         ftype = fill.get("type", "")
         if ftype == "SOLID" and fill.get("rgba"):
@@ -49,17 +50,30 @@ def _style_text(node, parent_container_transform, parent_type, is_root, parent_l
                 s["-webkit-background-clip"] = "text"
                 s["background-clip"] = "text"
                 s["-webkit-text-fill-color"] = "transparent"
-    elif not fills:
-        # node 无整体 fill 时，从第一个 textSegment 的 fill 取 color，
-        # 使 list-style marker 等继承到正确颜色。
-        for seg in (node.get("textSegments") or []):
-            if not isinstance(seg, dict):
-                continue
-            for f in (seg.get("fills") or []):
-                if isinstance(f, dict) and f.get("type") == "SOLID" and f.get("rgba"):
-                    s["color"] = f["rgba"]
-                    break
-            break
+    elif fills is None or (isinstance(fills, list) and len(fills) == 0):
+        # fills 为空：检查是否有 strokes（镂空描边文字），若有则设透明色
+        strokes = node.get("strokes")
+        if isinstance(strokes, list) and len(strokes) > 0:
+            s["color"] = "transparent"
+        else:
+            # node 无整体 fill 时，从第一个 textSegment 的 fill 取 color，
+            # 使 list-style marker 等继承到正确颜色。
+            for seg in (node.get("textSegments") or []):
+                if not isinstance(seg, dict):
+                    continue
+                for f in (seg.get("fills") or []):
+                    if isinstance(f, dict) and f.get("type") == "SOLID" and f.get("rgba"):
+                        s["color"] = f["rgba"]
+                        break
+                break
+    # 文字描边：strokes → -webkit-text-stroke
+    strokes = node.get("strokes")
+    if isinstance(strokes, list) and len(strokes) > 0:
+        stroke = strokes[0]
+        stroke_color = stroke.get("rgba")
+        if stroke_color:
+            stroke_width = node.get("strokeWeight") or 1
+            s["-webkit-text-stroke"] = f"{stroke_width}px {stroke_color}"
     fs = node.get("fontSize")
     if fs is not None:
         s["font-size"] = f"{fs}px"
