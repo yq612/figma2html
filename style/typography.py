@@ -99,6 +99,14 @@ def _style_text(node, parent_container_transform, parent_type, is_root, parent_l
                 s["line-height"] = val / 100
             else:
                 s["line-height"] = f"{val}px"
+    # Figma AUTO line-height 时，文字包围盒高度可能小于 fontSize（紧凑文字度量），
+    # 而 CSS 默认 line-height (~1.2) 更大，导致文字视觉中心下移。
+    # 用 Figma 高度作为 line-height，使 CSS 行盒与 Figma 包围盒对齐。
+    if "line-height" not in s and fs is not None:
+        h = node.get("height")
+        if h is not None and h < fs:
+            s["line-height"] = f"{h}px"
+            s.pop("height", None)
     ls = node.get("letterSpacing")
     if isinstance(ls, dict):
         unit = ls.get("unit")
