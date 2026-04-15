@@ -1,7 +1,7 @@
 """图片节点识别与样式生成。"""
 
 from style.utils import _normalize_num, _set
-from style.transform import _get_local_transform, _bounding_box_from_transform, _linear_is_identity, _full_transform_to_css
+from style.transform import _get_local_transform, _bounding_box_from_transform
 from style.layout import _is_flex_parent, _apply_flex_child, _visible_rect_in_parent, _escapes_flex
 
 
@@ -61,19 +61,12 @@ def _style_image(node, parent_container_transform, parent_type, is_root, parent_
             local_transform = _get_local_transform(node, parent_container_transform, parent_type, is_root)
             w, h = node.get("width"), node.get("height")
             if w is not None and h is not None:
-                if _linear_is_identity(local_transform):
-                    left, top, box_w, box_h = _bounding_box_from_transform(local_transform, w, h)
-                    s["left"] = f"{_normalize_num(left)}px"
-                    s["top"] = f"{_normalize_num(top)}px"
-                    _set(s, "width", f"{_normalize_num(box_w)}px")
-                    _set(s, "height", f"{_normalize_num(box_h)}px")
-                else:
-                    _set(s, "left", "0px")
-                    _set(s, "top", "0px")
-                    s["transform"] = _full_transform_to_css(local_transform)
-                    s["transform-origin"] = "0 0"
-                    _set(s, "width", f"{_normalize_num(w)}px")
-                    _set(s, "height", f"{_normalize_num(h)}px")
+                # isImage 导出的 PNG 已包含旋转，始终用包围盒定位，不再叠加 CSS transform
+                left, top, box_w, box_h = _bounding_box_from_transform(local_transform, w, h)
+                s["left"] = f"{_normalize_num(left)}px"
+                s["top"] = f"{_normalize_num(top)}px"
+                _set(s, "width", f"{_normalize_num(box_w)}px")
+                _set(s, "height", f"{_normalize_num(box_h)}px")
                 s["position"] = "absolute"
             return s
         w, h = node.get("width"), node.get("height")
@@ -84,24 +77,16 @@ def _style_image(node, parent_container_transform, parent_type, is_root, parent_
         s["flex-shrink"] = "0"
         _apply_flex_child(node, s, parent_layout_mode)
         return s
-    # 非 flex 父：图片用绝对定位还原 Figma 坐标（如右侧滚动条等）。
+    # 非 flex 父：图片用绝对定位还原 Figma 坐标。
+    # isImage 导出的 PNG 已包含旋转，始终用包围盒定位，不再叠加 CSS transform。
     local_transform = _get_local_transform(node, parent_container_transform, parent_type, is_root)
     w, h = node.get("width"), node.get("height")
     if w is not None and h is not None:
-        if _linear_is_identity(local_transform):
-            left, top, box_w, box_h = _bounding_box_from_transform(local_transform, w, h)
-            s["left"] = f"{_normalize_num(left)}px"
-            s["top"] = f"{_normalize_num(top)}px"
-            _set(s, "width", f"{_normalize_num(box_w)}px")
-            _set(s, "height", f"{_normalize_num(box_h)}px")
-        else:
-            # 有旋转/倾斜时，用原始尺寸 + CSS transform 还原旋转，避免拉伸
-            _set(s, "left", "0px")
-            _set(s, "top", "0px")
-            s["transform"] = _full_transform_to_css(local_transform)
-            s["transform-origin"] = "0 0"
-            _set(s, "width", f"{_normalize_num(w)}px")
-            _set(s, "height", f"{_normalize_num(h)}px")
+        left, top, box_w, box_h = _bounding_box_from_transform(local_transform, w, h)
+        s["left"] = f"{_normalize_num(left)}px"
+        s["top"] = f"{_normalize_num(top)}px"
+        _set(s, "width", f"{_normalize_num(box_w)}px")
+        _set(s, "height", f"{_normalize_num(box_h)}px")
         s["position"] = "absolute"
     _apply_flex_child(node, s, parent_layout_mode)
     return s
